@@ -5,6 +5,7 @@ import { ResponsiveLayout } from '@/components/layout/ResponsiveLayout';
 import MapDynamic from '@/components/MapDynamic';
 import RouteInput from '@/components/RouteInput';
 import RouteComparison from '@/components/RouteComparison';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 interface RouteData {
   tollRoute: {
@@ -96,10 +97,10 @@ export default function Home() {
           />
 
           {error && (
-            <div className="p-4 bg-red-50 border-2 border-red-200 text-red-700 rounded-xl">
-              <p className="font-semibold">Error</p>
-              <p className="text-sm mt-1">{error}</p>
-            </div>
+            <Alert variant="destructive">
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
           )}
 
           {routeData && origin && destination && (
@@ -111,11 +112,11 @@ export default function Home() {
           )}
 
           {!routeData && !error && !isLoading && (
-            <div className="p-6 bg-gray-50 border-2 border-gray-200 rounded-xl text-center">
-              <p className="text-gray-600 text-sm">
+            <Alert>
+              <AlertDescription className="text-center">
                 Enter your starting point and destination above to compare toll vs. free routes.
-              </p>
-            </div>
+              </AlertDescription>
+            </Alert>
           )}
         </div>
       }
