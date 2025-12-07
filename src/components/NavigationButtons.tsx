@@ -37,10 +37,11 @@ export default function NavigationButtons({
       {/* Primary Action */}
       <Button
         onClick={() => openNavigation(primaryApp)}
-        className="w-full"
+        className="w-full flex flex-col h-auto py-2"
         size="sm"
       >
-        Open in {primaryApp.name}
+        <span className="text-xs">Open in</span>
+        <span>{primaryApp.name}</span>
       </Button>
 
       {/* Progressive Disclosure Toggle */}

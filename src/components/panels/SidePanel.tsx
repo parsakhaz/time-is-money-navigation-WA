@@ -9,7 +9,7 @@ interface SidePanelProps {
 export function SidePanel({ children }: SidePanelProps) {
   return (
     <div className="absolute top-4 left-4 z-[1000] w-96 max-h-[calc(100vh-2rem)]
-                    overflow-auto bg-white rounded-xl shadow-2xl">
+                    overflow-auto bg-white rounded-xl shadow-2xl scrollbar-minimal">
       <div className="p-4">
         {children}
       </div>

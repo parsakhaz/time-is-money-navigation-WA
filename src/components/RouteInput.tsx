@@ -81,7 +81,9 @@ export default function RouteInput({ onRouteRequest, isLoading }: RouteInputProp
               aria-expanded={originOpen}
               className="w-full justify-between font-normal"
             >
-              {origin ? origin.displayName : "Enter starting location"}
+              <span className="truncate">
+                {origin ? origin.displayName : "Enter starting location"}
+              </span>
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
@@ -137,7 +139,9 @@ export default function RouteInput({ onRouteRequest, isLoading }: RouteInputProp
               aria-expanded={destOpen}
               className="w-full justify-between font-normal"
             >
-              {destination ? destination.displayName : "Enter destination"}
+              <span className="truncate">
+                {destination ? destination.displayName : "Enter destination"}
+              </span>
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
