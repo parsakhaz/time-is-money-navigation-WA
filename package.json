@@ -1,0 +1,41 @@
+{
+  "name": "time-is-money-router",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "setup:osrm": "./scripts/setup-osrm.sh",
+    "predev": "npm run setup:osrm",
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "osrm:start": "docker start osrm-wa || npm run setup:osrm",
+    "osrm:stop": "docker stop osrm-wa",
+    "osrm:logs": "docker logs -f osrm-wa",
+    "osrm:reset": "docker rm -f osrm-wa 2>/dev/null; rm -f docker/data/.osrm-setup-complete; npm run setup:osrm",
+    "scrape:tolls": "npx tsx scripts/scrape-tolls.ts"
+  },
+  "dependencies": {
+    "@types/leaflet": "^1.9.21",
+    "leaflet": "^1.9.4",
+    "leaflet-defaulticon-compatibility": "^0.1.2",
+    "next": "16.0.7",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "react-leaflet": "^5.0.0",
+    "use-debounce": "^10.0.6",
+    "vaul": "^1.1.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "cheerio": "^1.1.2",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.7",
+    "tailwindcss": "^4",
+    "tsx": "^4.21.0",
+    "typescript": "^5"
+  }
+}
