@@ -1,4 +1,4 @@
-const OSRM_BASE_URL = process.env.OSRM_URL || 'http://localhost:5000';
+const OSRM_BASE_URL = process.env.OSRM_URL || 'https://router.project-osrm.org';
 
 export interface Coordinate {
   lng: number;

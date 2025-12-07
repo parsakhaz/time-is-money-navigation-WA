@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Time is Money Router",
   description: "Smart toll road routing based on your hourly wage - Washington State Edition",
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 export default function RootLayout({
