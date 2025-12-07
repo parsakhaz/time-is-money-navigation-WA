@@ -2,6 +2,14 @@
 
 import { useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
+import { Slider } from '@/components/ui/slider';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
+import { Check, ChevronsUpDown } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface Place {
   displayName: string;
@@ -28,6 +36,8 @@ export default function RouteInput({ onRouteRequest, isLoading }: RouteInputProp
   const [destination, setDestination] = useState<Place | null>(null);
   const [wage, setWage] = useState(25);
   const [hasGoodToGo, setHasGoodToGo] = useState(true);
+  const [originOpen, setOriginOpen] = useState(false);
+  const [destOpen, setDestOpen] = useState(false);
 
   const searchPlaces = useDebouncedCallback(async (query: string, setter: (places: Place[]) => void) => {
     if (query.length < 2) {
@@ -58,123 +68,167 @@ export default function RouteInput({ onRouteRequest, isLoading }: RouteInputProp
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3">
-      {/* Origin Input */}
-      <div className="relative">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          From
-        </label>
-        <input
-          type="text"
-          value={origin ? origin.displayName : originQuery}
-          onChange={(e) => {
-            setOriginQuery(e.target.value);
-            setOrigin(null);
-            searchPlaces(e.target.value, setOriginResults);
-          }}
-          placeholder="Enter starting location"
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400
-                     focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        />
-        {originResults.length > 0 && !origin && (
-          <ul className="absolute z-[1200] w-full bg-white border border-gray-200 rounded-lg mt-1 max-h-48 overflow-auto shadow-lg">
-            {originResults.map((place, i) => (
-              <li
-                key={i}
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  setOrigin(place);
-                  setOriginResults([]);
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Origin Input with Combobox */}
+      <div className="grid w-full gap-1.5">
+        <Label htmlFor="origin">From</Label>
+        <Popover open={originOpen} onOpenChange={setOriginOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              id="origin"
+              variant="outline"
+              role="combobox"
+              aria-expanded={originOpen}
+              className="w-full justify-between font-normal h-auto min-h-[2.5rem] whitespace-normal"
+            >
+              <span className="break-words min-w-0 flex-1 text-left py-1">
+                {origin ? origin.displayName : "Enter starting location"}
+              </span>
+              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0" align="start">
+            <Command shouldFilter={false}>
+              <CommandInput
+                placeholder="Search locations..."
+                value={originQuery}
+                onValueChange={(value) => {
+                  setOriginQuery(value);
+                  searchPlaces(value, setOriginResults);
                 }}
-                className="px-3 py-2 hover:bg-gray-50 cursor-pointer text-sm text-gray-900 border-b border-gray-100 last:border-0"
-              >
-                {place.displayName}
-              </li>
-            ))}
-          </ul>
-        )}
+              />
+              <CommandList>
+                <CommandEmpty>No locations found.</CommandEmpty>
+                <CommandGroup>
+                  {originResults.map((place, i) => (
+                    <CommandItem
+                      key={i}
+                      value={place.displayName}
+                      onSelect={() => {
+                        setOrigin(place);
+                        setOriginQuery('');
+                        setOriginResults([]);
+                        setOriginOpen(false);
+                      }}
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          origin?.displayName === place.displayName ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                      {place.displayName}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
       </div>
 
-      {/* Destination Input */}
-      <div className="relative">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          To
-        </label>
-        <input
-          type="text"
-          value={destination ? destination.displayName : destQuery}
-          onChange={(e) => {
-            setDestQuery(e.target.value);
-            setDestination(null);
-            searchPlaces(e.target.value, setDestResults);
-          }}
-          placeholder="Enter destination"
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400
-                     focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        />
-        {destResults.length > 0 && !destination && (
-          <ul className="absolute z-[1200] w-full bg-white border border-gray-200 rounded-lg mt-1 max-h-48 overflow-auto shadow-lg">
-            {destResults.map((place, i) => (
-              <li
-                key={i}
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  setDestination(place);
-                  setDestResults([]);
+      {/* Destination Input with Combobox */}
+      <div className="grid w-full gap-1.5">
+        <Label htmlFor="destination">To</Label>
+        <Popover open={destOpen} onOpenChange={setDestOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              id="destination"
+              variant="outline"
+              role="combobox"
+              aria-expanded={destOpen}
+              className="w-full justify-between font-normal h-auto min-h-[2.5rem] whitespace-normal"
+            >
+              <span className="break-words min-w-0 flex-1 text-left py-1">
+                {destination ? destination.displayName : "Enter destination"}
+              </span>
+              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0" align="start">
+            <Command shouldFilter={false}>
+              <CommandInput
+                placeholder="Search locations..."
+                value={destQuery}
+                onValueChange={(value) => {
+                  setDestQuery(value);
+                  searchPlaces(value, setDestResults);
                 }}
-                className="px-3 py-2 hover:bg-gray-50 cursor-pointer text-sm text-gray-900 border-b border-gray-100 last:border-0"
-              >
-                {place.displayName}
-              </li>
-            ))}
-          </ul>
-        )}
+              />
+              <CommandList>
+                <CommandEmpty>No locations found.</CommandEmpty>
+                <CommandGroup>
+                  {destResults.map((place, i) => (
+                    <CommandItem
+                      key={i}
+                      value={place.displayName}
+                      onSelect={() => {
+                        setDestination(place);
+                        setDestQuery('');
+                        setDestResults([]);
+                        setDestOpen(false);
+                      }}
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          destination?.displayName === place.displayName ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                      {place.displayName}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
       </div>
 
       {/* Hourly Wage Slider */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Hourly Wage: <span className="font-bold text-blue-600">${wage}</span>/hr
-        </label>
-        <input
-          type="range"
-          min="15"
-          max="200"
-          step="5"
-          value={wage}
-          onChange={(e) => setWage(parseInt(e.target.value))}
-          className="w-full accent-blue-600"
+      <div className="grid gap-2">
+        <div className="flex items-center justify-between">
+          <Label htmlFor="wage">Hourly Wage</Label>
+          <span className="text-sm font-medium text-primary">${wage}/hr</span>
+        </div>
+        <Slider
+          id="wage"
+          min={15}
+          max={200}
+          step={5}
+          value={[wage]}
+          onValueChange={(value) => setWage(value[0])}
+          className="w-full"
         />
-        <div className="flex justify-between text-xs text-gray-500 mt-1">
+        <div className="flex justify-between text-xs text-muted-foreground">
           <span>$15/hr</span>
           <span>$200/hr</span>
         </div>
       </div>
 
       {/* Good To Go Toggle */}
-      <div className="flex items-center gap-2 py-1">
-        <input
-          type="checkbox"
+      <div className="flex items-center justify-between">
+        <Label
+          htmlFor="goodToGo"
+          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
+          I have a Good To Go! pass
+        </Label>
+        <Switch
           id="goodToGo"
           checked={hasGoodToGo}
-          onChange={(e) => setHasGoodToGo(e.target.checked)}
-          className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+          onCheckedChange={setHasGoodToGo}
         />
-        <label htmlFor="goodToGo" className="text-sm text-gray-700">
-          I have a Good To Go! pass
-        </label>
       </div>
 
-      <button
+      {/* Submit Button */}
+      <Button
         type="submit"
         disabled={!origin || !destination || isLoading}
-        className="w-full py-3 px-4 bg-blue-600 text-white font-medium rounded-lg
-                   hover:bg-blue-700 active:bg-blue-800
-                   disabled:bg-gray-300 disabled:cursor-not-allowed
-                   transition-colors duration-150"
+        className="w-full"
       >
         {isLoading ? 'Calculating...' : 'Find Best Route'}
-      </button>
+      </Button>
     </form>
   );
 }
