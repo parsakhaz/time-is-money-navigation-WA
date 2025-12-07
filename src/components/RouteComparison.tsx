@@ -77,8 +77,8 @@ export default function RouteComparison({
         </AlertTitle>
         <AlertDescription>
           {recommendation === 'toll'
-            ? `At $${hourlyWage}/hr, the ${formatDuration(timeSavedSeconds)} saved is worth more than the $${moneySpent.toFixed(2)} toll.`
-            : `At $${hourlyWage}/hr, the $${moneySpent.toFixed(2)} toll isn't worth ${formatDuration(timeSavedSeconds)}.`
+            ? `At $${hourlyWage || 0}/hr, the ${formatDuration(timeSavedSeconds)} saved is worth more than the $${moneySpent?.toFixed(2) || '0.00'} toll.`
+            : `At $${hourlyWage || 0}/hr, the $${moneySpent?.toFixed(2) || '0.00'} toll isn't worth ${formatDuration(timeSavedSeconds)}.`
           }
         </AlertDescription>
       </Alert>
@@ -105,7 +105,7 @@ export default function RouteComparison({
               </p>
               <p className="font-semibold text-blue-600 flex items-center gap-2">
                 <Banknote className="h-4 w-4" />
-                ${tollRoute.tollCost.toFixed(2)}
+                ${tollRoute.tollCost?.toFixed(2) || '0.00'}
               </p>
             </div>
             <NavigationButtons
@@ -153,10 +153,10 @@ export default function RouteComparison({
         <CardContent className="pt-6">
           <p className="font-medium text-sm flex items-center gap-2">
             <BarChart3 className="h-4 w-4" />
-            Break-even wage: <span className="text-blue-600">${breakEvenWage.toFixed(2)}/hr</span>
+            Break-even wage: <span className="text-blue-600">${breakEvenWage?.toFixed(2) || '0.00'}/hr</span>
           </p>
           <p className="text-muted-foreground text-xs mt-1">
-            If you earn more than ${breakEvenWage.toFixed(2)}/hr, the toll road is worth it.
+            If you earn more than ${breakEvenWage?.toFixed(2) || '0.00'}/hr, the toll road is worth it.
           </p>
         </CardContent>
       </Card>
