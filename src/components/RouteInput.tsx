@@ -81,7 +81,7 @@ export default function RouteInput({ onRouteRequest, isLoading }: RouteInputProp
               aria-expanded={originOpen}
               className="w-full justify-between font-normal"
             >
-              <span className="truncate">
+              <span className="truncate min-w-0 flex-1 text-left">
                 {origin ? origin.displayName : "Enter starting location"}
               </span>
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -139,7 +139,7 @@ export default function RouteInput({ onRouteRequest, isLoading }: RouteInputProp
               aria-expanded={destOpen}
               className="w-full justify-between font-normal"
             >
-              <span className="truncate">
+              <span className="truncate min-w-0 flex-1 text-left">
                 {destination ? destination.displayName : "Enter destination"}
               </span>
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
