@@ -4,6 +4,7 @@ import NavigationButtons from './NavigationButtons';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { cn } from '@/lib/utils';
+import { Coins, CircleSlash, Clock, MapPin, Banknote, Check, BarChart3 } from 'lucide-react';
 
 interface RouteComparisonProps {
   tollRoute: {
@@ -61,8 +62,18 @@ export default function RouteComparison({
           ? 'bg-blue-50 border-blue-200'
           : 'bg-green-50 border-green-200'
       )}>
-        <AlertTitle className="text-lg">
-          {recommendation === 'toll' ? '💰 Take the Toll Road!' : '🆓 Take the Free Route!'}
+        <AlertTitle className="text-lg flex items-center gap-2">
+          {recommendation === 'toll' ? (
+            <>
+              <Coins className="h-5 w-5" />
+              Take the Toll Road!
+            </>
+          ) : (
+            <>
+              <CircleSlash className="h-5 w-5" />
+              Take the Free Route!
+            </>
+          )}
         </AlertTitle>
         <AlertDescription>
           {recommendation === 'toll'
@@ -84,9 +95,18 @@ export default function RouteComparison({
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="space-y-1 text-sm">
-              <p>⏱️ {formatDuration(tollRoute.durationSeconds)}</p>
-              <p>📍 {formatDistance(tollRoute.distanceMeters)}</p>
-              <p className="font-semibold text-blue-600">💵 ${tollRoute.tollCost.toFixed(2)}</p>
+              <p className="flex items-center gap-2">
+                <Clock className="h-4 w-4" />
+                {formatDuration(tollRoute.durationSeconds)}
+              </p>
+              <p className="flex items-center gap-2">
+                <MapPin className="h-4 w-4" />
+                {formatDistance(tollRoute.distanceMeters)}
+              </p>
+              <p className="font-semibold text-blue-600 flex items-center gap-2">
+                <Banknote className="h-4 w-4" />
+                ${tollRoute.tollCost.toFixed(2)}
+              </p>
             </div>
             <NavigationButtons
               origin={origin}
@@ -106,9 +126,18 @@ export default function RouteComparison({
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="space-y-1 text-sm">
-              <p>⏱️ {formatDuration(freeRoute.durationSeconds)}</p>
-              <p>📍 {formatDistance(freeRoute.distanceMeters)}</p>
-              <p className="font-semibold text-green-600">✓ Free!</p>
+              <p className="flex items-center gap-2">
+                <Clock className="h-4 w-4" />
+                {formatDuration(freeRoute.durationSeconds)}
+              </p>
+              <p className="flex items-center gap-2">
+                <MapPin className="h-4 w-4" />
+                {formatDistance(freeRoute.distanceMeters)}
+              </p>
+              <p className="font-semibold text-green-600 flex items-center gap-2">
+                <Check className="h-4 w-4" />
+                Free!
+              </p>
             </div>
             <NavigationButtons
               origin={origin}
@@ -122,8 +151,9 @@ export default function RouteComparison({
       {/* Break-Even Info */}
       <Card>
         <CardContent className="pt-6">
-          <p className="font-medium text-sm">
-            📊 Break-even wage: <span className="text-blue-600">${breakEvenWage.toFixed(2)}/hr</span>
+          <p className="font-medium text-sm flex items-center gap-2">
+            <BarChart3 className="h-4 w-4" />
+            Break-even wage: <span className="text-blue-600">${breakEvenWage.toFixed(2)}/hr</span>
           </p>
           <p className="text-muted-foreground text-xs mt-1">
             If you earn more than ${breakEvenWage.toFixed(2)}/hr, the toll road is worth it.
