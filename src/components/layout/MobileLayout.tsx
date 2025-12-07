@@ -37,11 +37,11 @@ export function MobileLayout({ map, sheetContent }: MobileLayoutProps) {
 
       {/* Simple Sheet - Hidden by default */}
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetContent side="bottom" className="h-[90vh] overflow-auto">
-          <SheetHeader>
+        <SheetContent side="bottom" className="h-[90vh] overflow-auto px-6">
+          <SheetHeader className="px-0">
             <SheetTitle>Route Search</SheetTitle>
           </SheetHeader>
-          <div className="mt-4">
+          <div className="mt-6 space-y-6">
             {sheetContent}
           </div>
         </SheetContent>
