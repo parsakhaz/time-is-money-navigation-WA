@@ -26,7 +26,7 @@ export function BottomSheet({ children, activeSnap, onSnapChange }: BottomSheetP
       setActiveSnapPoint={setSnap}
       dismissible={false}
     >
-      <Drawer.Portal container={typeof window !== 'undefined' ? document.body : undefined}>
+      <Drawer.Portal>
         <Drawer.Content
           className="fixed bottom-0 left-0 right-0 z-[1100] flex flex-col rounded-t-2xl bg-white shadow-[0_-4px_20px_rgba(0,0,0,0.15)] touch-none"
           style={{ maxHeight: '90vh' }}
