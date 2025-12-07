@@ -36,6 +36,9 @@ export default function Home() {
   const [origin, setOrigin] = useState<{ lat: number; lng: number } | null>(null);
   const [destination, setDestination] = useState<{ lat: number; lng: number } | null>(null);
 
+  // Check if running in production without proper OSRM setup
+  const isProduction = typeof window !== 'undefined' && !window.location.hostname.includes('localhost');
+
   const handleRouteRequest = async (params: {
     origin: { lat: number; lng: number };
     destination: { lat: number; lng: number };
@@ -91,6 +94,17 @@ export default function Home() {
       }
       panelContent={
         <div className="space-y-4">
+          {isProduction && (
+            <Alert variant="destructive">
+              <AlertTitle>⚠️ Demo Mode Only</AlertTitle>
+              <AlertDescription>
+                This app requires a local OSRM routing server to function properly.
+                The production deployment is not fully configured yet.
+                To use this app, clone the repository and run it locally with Docker.
+              </AlertDescription>
+            </Alert>
+          )}
+
           <RouteInput
             onRouteRequest={handleRouteRequest}
             isLoading={isLoading}
