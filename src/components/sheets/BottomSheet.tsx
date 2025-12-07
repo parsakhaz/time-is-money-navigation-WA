@@ -5,13 +5,17 @@ import { ReactNode, useState } from 'react';
 
 interface BottomSheetProps {
   children: ReactNode;
-  defaultSnap?: number | string;
+  activeSnap?: number | string | null;
+  onSnapChange?: (snap: number | string | null) => void;
 }
 
-const SNAP_POINTS = ['200px', '50%', 1] as const;
+const SNAP_POINTS = ['350px', '50%', 1] as const;
 
-export function BottomSheet({ children, defaultSnap = '200px' }: BottomSheetProps) {
-  const [snap, setSnap] = useState<number | string | null>(defaultSnap);
+export function BottomSheet({ children, activeSnap, onSnapChange }: BottomSheetProps) {
+  const [internalSnap, setInternalSnap] = useState<number | string | null>('350px');
+
+  const snap = activeSnap !== undefined ? activeSnap : internalSnap;
+  const setSnap = onSnapChange || setInternalSnap;
 
   return (
     <Drawer.Root
