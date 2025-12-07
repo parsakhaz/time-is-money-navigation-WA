@@ -79,9 +79,9 @@ export default function RouteInput({ onRouteRequest, isLoading }: RouteInputProp
               variant="outline"
               role="combobox"
               aria-expanded={originOpen}
-              className="w-full justify-between font-normal"
+              className="w-full justify-between font-normal h-auto min-h-[2.5rem] whitespace-normal"
             >
-              <span className="truncate min-w-0 flex-1 text-left">
+              <span className="break-words min-w-0 flex-1 text-left py-1">
                 {origin ? origin.displayName : "Enter starting location"}
               </span>
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -137,9 +137,9 @@ export default function RouteInput({ onRouteRequest, isLoading }: RouteInputProp
               variant="outline"
               role="combobox"
               aria-expanded={destOpen}
-              className="w-full justify-between font-normal"
+              className="w-full justify-between font-normal h-auto min-h-[2.5rem] whitespace-normal"
             >
-              <span className="truncate min-w-0 flex-1 text-left">
+              <span className="break-words min-w-0 flex-1 text-left py-1">
                 {destination ? destination.displayName : "Enter destination"}
               </span>
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
