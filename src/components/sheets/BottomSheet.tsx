@@ -8,9 +8,9 @@ interface BottomSheetProps {
   defaultSnap?: number | string;
 }
 
-const SNAP_POINTS = ['148px', '50%', 1] as const;
+const SNAP_POINTS = ['200px', '50%', 1] as const;
 
-export function BottomSheet({ children, defaultSnap = '50%' }: BottomSheetProps) {
+export function BottomSheet({ children, defaultSnap = '200px' }: BottomSheetProps) {
   const [snap, setSnap] = useState<number | string | null>(defaultSnap);
 
   return (
@@ -22,9 +22,9 @@ export function BottomSheet({ children, defaultSnap = '50%' }: BottomSheetProps)
       setActiveSnapPoint={setSnap}
       dismissible={false}
     >
-      <Drawer.Portal>
+      <Drawer.Portal container={typeof window !== 'undefined' ? document.body : undefined}>
         <Drawer.Content
-          className="fixed bottom-0 left-0 right-0 z-[1100] flex flex-col rounded-t-2xl bg-white shadow-[0_-4px_20px_rgba(0,0,0,0.15)]"
+          className="fixed bottom-0 left-0 right-0 z-[1100] flex flex-col rounded-t-2xl bg-white shadow-[0_-4px_20px_rgba(0,0,0,0.15)] touch-none"
           style={{ maxHeight: '90vh' }}
         >
           {/* Visually hidden title for accessibility */}
