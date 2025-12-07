@@ -102,11 +102,9 @@ Users see fresh toll data!
 - Auto-commits updated data
 - Triggers Vercel redeployment
 
-## Environment Variables
+## Environment Variables (Optional)
 
-No environment variables are required! The app works out of the box using the public OSRM server.
-
-If you want to use a custom OSRM server in the future:
+If you want to use a different OSRM server:
 
 1. In Vercel dashboard → Project Settings → Environment Variables
 2. Add:
@@ -114,14 +112,19 @@ If you want to use a custom OSRM server in the future:
    - **Value:** `https://your-custom-osrm-server.com`
 3. Redeploy
 
+By default, it uses the public OSRM server, so this is optional.
+
 ## Local Development
 
 ```bash
-# Run development server
+# Use public OSRM (default)
+npm run dev
+
+# Use local Docker OSRM
+npm run setup:osrm
+export OSRM_URL=http://localhost:5000
 npm run dev
 ```
-
-The app uses the public OSRM server by default, so no additional setup is required!
 
 ## Updating Your Live Site
 

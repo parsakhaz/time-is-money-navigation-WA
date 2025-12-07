@@ -3,10 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "setup:osrm": "./scripts/setup-osrm.sh",
+    "predev": "npm run setup:osrm",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "osrm:start": "docker start osrm-wa || npm run setup:osrm",
+    "osrm:stop": "docker stop osrm-wa",
+    "osrm:logs": "docker logs -f osrm-wa",
+    "osrm:reset": "docker rm -f osrm-wa 2>/dev/null; rm -f docker/data/.osrm-setup-complete; npm run setup:osrm",
     "scrape:tolls": "npx tsx scripts/scrape-tolls.ts"
   },
   "dependencies": {
