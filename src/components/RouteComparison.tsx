@@ -148,18 +148,20 @@ export default function RouteComparison({
         </Card>
       </div>
 
-      {/* Break-Even Info */}
-      <Card>
-        <CardContent className="pt-6">
-          <p className="font-medium text-sm flex items-center gap-2">
-            <BarChart3 className="h-4 w-4" />
-            Break-even wage: <span className="text-blue-600">${breakEvenWage?.toFixed(2) || '0.00'}/hr</span>
-          </p>
-          <p className="text-muted-foreground text-xs mt-1">
-            If you earn more than ${breakEvenWage?.toFixed(2) || '0.00'}/hr, the toll road is worth it.
-          </p>
-        </CardContent>
-      </Card>
+      {/* Break-Even Info - Only show if there's meaningful time difference */}
+      {timeSavedSeconds > 30 && breakEvenWage && breakEvenWage > 0 && (
+        <Card>
+          <CardContent className="pt-6">
+            <p className="font-medium text-sm flex items-center gap-2">
+              <BarChart3 className="h-4 w-4" />
+              Break-even wage: <span className="text-blue-600">${breakEvenWage.toFixed(2)}/hr</span>
+            </p>
+            <p className="text-muted-foreground text-xs mt-1">
+              If you earn more than ${breakEvenWage.toFixed(2)}/hr, the toll road is worth it.
+            </p>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
