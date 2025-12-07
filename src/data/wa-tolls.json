@@ -1,0 +1,301 @@
+{
+  "version": "2025.12",
+  "lastUpdated": "2025-12-07",
+  "sources": [
+    "https://wsdot.wa.gov/travel/roads-bridges/toll-roads-bridges-tunnels/sr-520-bridge-tolling",
+    "https://wsdot.wa.gov/travel/roads-bridges/toll-roads-bridges-tunnels/tacoma-narrows-bridge-tolling",
+    "https://wsdot.wa.gov/travel/roads-bridges/toll-roads-bridges-tunnels/sr-99-tunnel-tolling",
+    "https://wsdot.wa.gov/travel/roads-bridges/toll-roads-bridges-tunnels/i-405-express-toll-lanes",
+    "https://wsdot.wa.gov/travel/roads-bridges/toll-roads-bridges-tunnels/sr-167-express-toll-lanes",
+    "https://wsdot.wa.gov/travel/roads-bridges/toll-roads-bridges-tunnels/sr-509-expressway"
+  ],
+  "facilities": [
+    {
+      "id": "sr520",
+      "name": "SR 520 Bridge",
+      "description": "Evergreen Point Floating Bridge (Seattle to Bellevue)",
+      "type": "bridge",
+      "coordinates": {
+        "start": [
+          -122.32,
+          47.639
+        ],
+        "end": [
+          -122.2543,
+          47.638
+        ]
+      },
+      "pricing": {
+        "type": "time-of-day",
+        "hasGoodToGo": true,
+        "payByMailPremium": 2,
+        "weekday": [
+          {
+            "start": "00:00",
+            "end": "05:00",
+            "rate": 1.35
+          },
+          {
+            "start": "05:00",
+            "end": "06:00",
+            "rate": 2.75
+          },
+          {
+            "start": "06:00",
+            "end": "07:00",
+            "rate": 3.95
+          },
+          {
+            "start": "07:00",
+            "end": "10:00",
+            "rate": 4.9
+          },
+          {
+            "start": "10:00",
+            "end": "15:00",
+            "rate": 3.95
+          },
+          {
+            "start": "15:00",
+            "end": "19:00",
+            "rate": 4.9
+          },
+          {
+            "start": "19:00",
+            "end": "21:00",
+            "rate": 3.95
+          },
+          {
+            "start": "21:00",
+            "end": "23:00",
+            "rate": 2.75
+          },
+          {
+            "start": "23:00",
+            "end": "00:00",
+            "rate": 1.35
+          }
+        ],
+        "weekend": [
+          {
+            "start": "00:00",
+            "end": "05:00",
+            "rate": 1.35
+          },
+          {
+            "start": "05:00",
+            "end": "08:00",
+            "rate": 1.7
+          },
+          {
+            "start": "08:00",
+            "end": "21:00",
+            "rate": 2.95
+          },
+          {
+            "start": "21:00",
+            "end": "23:00",
+            "rate": 1.7
+          },
+          {
+            "start": "23:00",
+            "end": "00:00",
+            "rate": 1.35
+          }
+        ]
+      }
+    },
+    {
+      "id": "tacoma-narrows",
+      "name": "Tacoma Narrows Bridge",
+      "description": "SR 16 Tacoma Narrows (Eastbound only, Gig Harbor to Tacoma)",
+      "type": "bridge",
+      "coordinates": {
+        "start": [
+          -122.5515,
+          47.269
+        ],
+        "end": [
+          -122.5325,
+          47.269
+        ]
+      },
+      "pricing": {
+        "type": "fixed",
+        "hasGoodToGo": true,
+        "payByMailPremium": 2,
+        "rate": 4.5
+      }
+    },
+    {
+      "id": "sr99-tunnel",
+      "name": "SR 99 Tunnel",
+      "description": "Alaskan Way Viaduct Replacement (Downtown Seattle)",
+      "type": "tunnel",
+      "coordinates": {
+        "start": [
+          -122.3387,
+          47.5916
+        ],
+        "end": [
+          -122.3459,
+          47.6197
+        ]
+      },
+      "pricing": {
+        "type": "time-of-day",
+        "hasGoodToGo": true,
+        "payByMailPremium": 2,
+        "weekday": [
+          {
+            "start": "23:00",
+            "end": "06:00",
+            "rate": 1.25
+          },
+          {
+            "start": "06:00",
+            "end": "07:00",
+            "rate": 1.55
+          },
+          {
+            "start": "07:00",
+            "end": "09:00",
+            "rate": 1.85
+          },
+          {
+            "start": "09:00",
+            "end": "15:00",
+            "rate": 1.55
+          },
+          {
+            "start": "15:00",
+            "end": "18:00",
+            "rate": 2.8
+          },
+          {
+            "start": "18:00",
+            "end": "23:00",
+            "rate": 1.55
+          }
+        ],
+        "weekend": [
+          {
+            "start": "00:00",
+            "end": "24:00",
+            "rate": 1.25
+          }
+        ]
+      }
+    },
+    {
+      "id": "i405-express",
+      "name": "I-405 Express Toll Lanes",
+      "description": "Dynamic toll lanes from Lynnwood to Bellevue (5am-8pm Mon-Fri)",
+      "type": "express-lanes",
+      "coordinates": {
+        "north": [
+          -122.2969,
+          47.821
+        ],
+        "south": [
+          -122.1847,
+          47.5975
+        ]
+      },
+      "pricing": {
+        "type": "dynamic",
+        "hasGoodToGo": true,
+        "payByMailPremium": 2,
+        "payByPlatePremium": 0.25,
+        "hovFree": true,
+        "operatingHours": {
+          "weekday": {
+            "start": "05:00",
+            "end": "20:00"
+          },
+          "weekend": null
+        },
+        "rateRange": {
+          "min": 1,
+          "max": 15
+        },
+        "estimates": {
+          "offPeak": 2,
+          "typical": 5,
+          "peak": 10
+        },
+        "note": "Rates change every 5 minutes based on traffic. Use WSDOT app for real-time rates."
+      }
+    },
+    {
+      "id": "sr167-express",
+      "name": "SR 167 Express Toll Lanes",
+      "description": "Dynamic toll lanes from Renton to Auburn",
+      "type": "express-lanes",
+      "coordinates": {
+        "north": [
+          -122.215,
+          47.479
+        ],
+        "south": [
+          -122.227,
+          47.307
+        ]
+      },
+      "pricing": {
+        "type": "dynamic",
+        "hasGoodToGo": true,
+        "payByMailPremium": 2,
+        "payByPlatePremium": 0.25,
+        "hovFree": true,
+        "operatingHours": {
+          "weekday": {
+            "start": "05:00",
+            "end": "20:00"
+          },
+          "weekend": null
+        },
+        "rateRange": {
+          "min": 1,
+          "max": 15
+        },
+        "estimates": {
+          "offPeak": 2,
+          "typical": 5,
+          "peak": 10
+        },
+        "note": "Rates change every 5 minutes based on traffic. Use WSDOT app for real-time rates."
+      }
+    },
+    {
+      "id": "sr509-expressway",
+      "name": "SR 509 Expressway",
+      "description": "Connects I-5 to SR 509 near SeaTac Airport",
+      "type": "expressway",
+      "coordinates": {
+        "north": [
+          -122.328,
+          47.445
+        ],
+        "south": [
+          -122.334,
+          47.405
+        ]
+      },
+      "pricing": {
+        "type": "time-of-day",
+        "hasGoodToGo": true,
+        "payByMailPremium": 2,
+        "weekday": [],
+        "weekend": [
+          {
+            "start": "00:00",
+            "end": "24:00",
+            "rate": 1.2,
+            "direction": "both"
+          }
+        ]
+      }
+    }
+  ]
+}
