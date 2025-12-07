@@ -1,4 +1,5 @@
 import { routeCrossesToll } from './toll-detector';
+import { findAlternativeRoutes } from './alternative-router';
 
 const OSRM_BASE_URL = process.env.OSRM_URL || 'https://router.project-osrm.org';
 
@@ -63,12 +64,26 @@ async function getAlternativeRoutes(
 
 /**
  * Fetch both toll and no-toll routes using OSRM alternatives
+ * If OSRM doesn't provide enough alternatives, actively search for them
  */
 export async function getRouteComparison(
   origin: Coordinate,
   destination: Coordinate
 ): Promise<{ withTolls: RouteResult | null; withoutTolls: RouteResult | null }> {
-  const routes = await getAlternativeRoutes(origin, destination);
+  let routes = await getAlternativeRoutes(origin, destination);
+
+  // If OSRM didn't give us multiple routes, actively search for alternatives
+  if (routes.length < 2) {
+    console.log('OSRM provided < 2 routes, searching for alternatives with waypoints');
+    const alternativeRoutes = await findAlternativeRoutes(origin, destination);
+
+    // Add the found alternatives and re-classify them
+    const allRoutes = [...routes, ...alternativeRoutes];
+    routes = allRoutes.map(route => ({
+      ...route,
+      hasTolls: routeCrossesToll(route.geometry)
+    }));
+  }
 
   if (routes.length === 0) {
     return { withTolls: null, withoutTolls: null };
@@ -104,7 +119,7 @@ export async function getRouteComparison(
   }
 
   if (withTolls && !withoutTolls) {
-    // Only toll routes available
+    // Only toll routes available - this shouldn't happen often now
     return { withTolls, withoutTolls: null };
   }
 
