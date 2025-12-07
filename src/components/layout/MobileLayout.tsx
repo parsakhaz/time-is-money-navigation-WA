@@ -1,9 +1,14 @@
 'use client';
 
 import { ReactNode, useState } from 'react';
-import { BottomSheet } from '../sheets/BottomSheet';
 import { Button } from '@/components/ui/button';
-import { Search } from 'lucide-react';
+import { Search, X } from 'lucide-react';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet';
 
 interface MobileLayoutProps {
   map: ReactNode;
@@ -11,11 +16,7 @@ interface MobileLayoutProps {
 }
 
 export function MobileLayout({ map, sheetContent }: MobileLayoutProps) {
-  const [snapPoint, setSnapPoint] = useState<number | string | null>('350px');
-
-  const expandSheet = () => {
-    setSnapPoint(1); // Full screen
-  };
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="fixed inset-0 flex flex-col">
@@ -26,18 +27,25 @@ export function MobileLayout({ map, sheetContent }: MobileLayoutProps) {
 
       {/* Floating Search Button */}
       <Button
-        onClick={expandSheet}
+        onClick={() => setIsOpen(true)}
         size="icon"
-        className="absolute top-4 left-4 z-[1200] rounded-full shadow-lg"
-        aria-label="Expand route search"
+        className="absolute top-4 left-4 z-[1000] rounded-full shadow-lg"
+        aria-label="Open route search"
       >
         <Search className="h-5 w-5" />
       </Button>
 
-      {/* Bottom Sheet */}
-      <BottomSheet activeSnap={snapPoint} onSnapChange={setSnapPoint}>
-        {sheetContent}
-      </BottomSheet>
+      {/* Simple Sheet - Hidden by default */}
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <SheetContent side="bottom" className="h-[90vh] overflow-auto">
+          <SheetHeader>
+            <SheetTitle>Route Search</SheetTitle>
+          </SheetHeader>
+          <div className="mt-4">
+            {sheetContent}
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }
