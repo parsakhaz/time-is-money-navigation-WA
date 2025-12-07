@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Switch } from '@/components/ui/switch';
 import { Slider } from '@/components/ui/slider';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
@@ -207,18 +207,18 @@ export default function RouteInput({ onRouteRequest, isLoading }: RouteInputProp
       </div>
 
       {/* Good To Go Toggle */}
-      <div className="flex items-center space-x-2">
-        <Checkbox
-          id="goodToGo"
-          checked={hasGoodToGo}
-          onCheckedChange={(checked) => setHasGoodToGo(checked === true)}
-        />
+      <div className="flex items-center justify-between">
         <Label
           htmlFor="goodToGo"
           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
           I have a Good To Go! pass
         </Label>
+        <Switch
+          id="goodToGo"
+          checked={hasGoodToGo}
+          onCheckedChange={setHasGoodToGo}
+        />
       </div>
 
       {/* Submit Button */}
