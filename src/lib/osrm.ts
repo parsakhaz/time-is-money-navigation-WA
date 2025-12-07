@@ -1,3 +1,5 @@
+import { routeCrossesToll } from './toll-detector';
+
 const OSRM_BASE_URL = process.env.OSRM_URL || 'https://router.project-osrm.org';
 
 export interface Coordinate {
@@ -26,53 +28,85 @@ export interface OSRMResponse {
 }
 
 /**
- * Fetch route from OSRM
- * @param origin Start coordinates
- * @param destination End coordinates
- * @param excludeToll Whether to exclude toll roads
+ * Fetch multiple alternative routes from OSRM
  */
-export async function getRoute(
+async function getAlternativeRoutes(
   origin: Coordinate,
-  destination: Coordinate,
-  excludeToll: boolean = false
-): Promise<RouteResult | null> {
+  destination: Coordinate
+): Promise<RouteResult[]> {
   const coords = `${origin.lng},${origin.lat};${destination.lng},${destination.lat}`;
-  const excludeParam = excludeToll ? '&exclude=toll' : '';
-
-  const url = `${OSRM_BASE_URL}/route/v1/driving/${coords}?overview=full&geometries=geojson${excludeParam}`;
+  const url = `${OSRM_BASE_URL}/route/v1/driving/${coords}?overview=full&geometries=geojson&alternatives=true`;
 
   try {
     const response = await fetch(url);
     const data: OSRMResponse = await response.json();
 
     if (data.code !== 'Ok' || !data.routes.length) {
-      return null;
+      return [];
     }
 
-    const route = data.routes[0];
-    return {
-      distance: route.distance,
-      duration: route.duration,
-      geometry: route.geometry as GeoJSON.LineString,
-      hasTolls: !excludeToll
-    };
+    // Convert all routes and detect tolls
+    return data.routes.map(route => {
+      const geometry = route.geometry as GeoJSON.LineString;
+      return {
+        distance: route.distance,
+        duration: route.duration,
+        geometry,
+        hasTolls: routeCrossesToll(geometry)
+      };
+    });
   } catch (error) {
     console.error('OSRM fetch error:', error);
-    return null;
+    return [];
   }
 }
 
 /**
- * Fetch both toll and no-toll routes
+ * Fetch both toll and no-toll routes using OSRM alternatives
  */
 export async function getRouteComparison(
   origin: Coordinate,
   destination: Coordinate
 ): Promise<{ withTolls: RouteResult | null; withoutTolls: RouteResult | null }> {
-  const [withTolls, withoutTolls] = await Promise.all([
-    getRoute(origin, destination, false),
-    getRoute(origin, destination, true)
-  ]);
+  const routes = await getAlternativeRoutes(origin, destination);
+
+  if (routes.length === 0) {
+    return { withTolls: null, withoutTolls: null };
+  }
+
+  // Separate routes by toll status
+  const tollRoutes = routes.filter(r => r.hasTolls);
+  const freeRoutes = routes.filter(r => !r.hasTolls);
+
+  // Pick the fastest toll route and fastest free route
+  const withTolls = tollRoutes.length > 0
+    ? tollRoutes.reduce((fastest, current) =>
+        current.duration < fastest.duration ? current : fastest
+      )
+    : null;
+
+  const withoutTolls = freeRoutes.length > 0
+    ? freeRoutes.reduce((fastest, current) =>
+        current.duration < fastest.duration ? current : fastest
+      )
+    : null;
+
+  // If we don't have both, use the fastest route as fallback
+  // and mark it appropriately
+  if (!withTolls && !withoutTolls) {
+    // This shouldn't happen since routes.length > 0
+    return { withTolls: null, withoutTolls: null };
+  }
+
+  if (!withTolls && withoutTolls) {
+    // Only free routes available
+    return { withTolls: null, withoutTolls };
+  }
+
+  if (withTolls && !withoutTolls) {
+    // Only toll routes available
+    return { withTolls, withoutTolls: null };
+  }
 
   return { withTolls, withoutTolls };
 }
