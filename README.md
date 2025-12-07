@@ -46,20 +46,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### Using Local OSRM (Optional)
-
-For development, you can use the included Docker setup for offline routing:
-
-```bash
-# Start local OSRM server
-npm run setup:osrm
-
-# Set environment variable to use local OSRM
-export OSRM_URL=http://localhost:5000
-npm run dev
-```
-
-By default, the app uses the public OSRM server at `https://router.project-osrm.org`.
+The app uses the public OSRM routing service, so no additional setup is required!
 
 ## Deployment
 
@@ -105,9 +92,6 @@ npm run build        # Build for production
 npm run start        # Start production server
 npm run lint         # Run ESLint
 npm run scrape:tolls # Manually scrape toll data
-npm run setup:osrm   # Set up local OSRM Docker container
-npm run osrm:start   # Start OSRM container
-npm run osrm:stop    # Stop OSRM container
 ```
 
 ## Project Structure
@@ -123,10 +107,9 @@ npm run osrm:stop    # Stop OSRM container
 │   ├── data/            # Static data (toll rates)
 │   ├── lib/             # Utility functions
 │   └── hooks/           # Custom React hooks
-├── scripts/             # Build and scraping scripts
-│   ├── scrape-tolls.ts  # Toll data scraper
-│   └── lib/parsers/     # WSDOT page parsers
-└── docker/              # Local OSRM setup
+└── scripts/             # Build and scraping scripts
+    ├── scrape-tolls.ts  # Toll data scraper
+    └── lib/parsers/     # WSDOT page parsers
 ```
 
 ## How It Works
