@@ -24,20 +24,25 @@ export function BottomSheet({ children, defaultSnap = '50%' }: BottomSheetProps)
     >
       <Drawer.Portal>
         <Drawer.Content
-          className="fixed bottom-0 left-0 right-0 z-[1100] flex flex-col rounded-t-2xl bg-white shadow-2xl"
+          className="fixed bottom-0 left-0 right-0 z-[1100] flex flex-col rounded-t-2xl bg-white shadow-[0_-4px_20px_rgba(0,0,0,0.15)]"
           style={{ maxHeight: '90vh' }}
         >
           {/* Visually hidden title for accessibility */}
           <Drawer.Title className="sr-only">Route Options</Drawer.Title>
 
           {/* Drag Handle */}
-          <div className="flex justify-center pt-3 pb-2">
-            <div className="h-1.5 w-12 rounded-full bg-gray-300" />
+          <div className="flex justify-center pt-3 pb-2 bg-gray-50">
+            <div className="h-1.5 w-12 rounded-full bg-gray-400" />
+          </div>
+
+          {/* Visual indicator text */}
+          <div className="text-center py-2 text-xs text-muted-foreground border-b">
+            Swipe up for route options
           </div>
 
           {/* Content */}
           <div
-            className="flex-1 overflow-auto px-4 pb-4"
+            className="flex-1 overflow-auto px-4 pb-4 scrollbar-minimal"
             style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
           >
             {children}
